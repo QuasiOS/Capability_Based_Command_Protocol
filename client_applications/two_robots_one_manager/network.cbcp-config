@@ -1,0 +1,24 @@
+!CBCP 1.0
+
+!HOSTS
+Manager      ; TCP,127.0.0.1:9000
+Robot Arm    ; TCP,127.0.0.1:9002
+Mobile Robot ; TCP,127.0.0.1:9004
+
+!GROUPS
+@Robots ; Robot Arm, Mobile Robot
+
+!INTERFACES
+Logging ; Log
+Arm     ; Load Bricks
+Info    ; Done Loading
+
+!IMPLEMENTS
+Manager      ; Logging
+Robot Arm    ; Arm
+Mobile Robot ; Info
+
+!CAPABILITIES
+Robot Arm    ; Mobile Robot ; Info    ; Done Loading
+Mobile Robot ; Robot Arm    ; Arm     ; Load Bricks
+@Robots      ; Manager      ; Logging ; Log

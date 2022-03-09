@@ -1,0 +1,156 @@
+
+// Calculates the allocation size requirement for the in-memory database
+CBCP_Status
+cbcp_size_of_loaded_state(
+	char *cbcp_db_contents,
+	unsigned int cbcp_db_contents_length,
+	CBCP_Net_Implementation net_implementations[],
+	unsigned int net_implementation_count,
+	unsigned int *out_size);
+
+// Initializes a CBCP_State with data from the database
+CBCP_Status
+cbcp_load_state(
+	CBCP_State *cbcp,
+	unsigned int cbcp_size,
+	char *cbcp_db_contents,
+	unsigned int cbcp_db_contents_length,
+	CBCP_Net_Implementation net_implementations[],
+	unsigned int net_implementation_count);
+
+
+
+// Provides the ID of an interface provided by self
+CBCP_Status
+cbcp_own_interface_id_from_name(
+	CBCP_State *cbcp,
+	char *interface_name,
+	unsigned int interface_name_length,
+	CBCP_Own_Interface_Id *out_id);
+
+// Provides the ID of a remote interface, as seen by self
+CBCP_Status
+cbcp_remote_interface_id_from_name(
+	CBCP_State *cbcp,
+	const char *remote_interface_name,
+	unsigned int remote_interface_name_length,
+	CBCP_Remote_Interface_Id *out_id);
+
+// Provides the ID of a a neighboring host, as seen by self
+CBCP_Status
+cbcp_host_id_from_name(
+	CBCP_State *cbcp,
+	const char *host_name,
+	unsigned int host_name_length,
+	CBCP_Host_Id *out_id);
+
+// Provides the ID of a command on an interface provided by self
+CBCP_Status
+cbcp_own_command_id_from_name(
+	CBCP_State *cbcp,
+	cbcp_get_own_interface *interface,
+	const char *command_name,
+	unsigned int command_name_length,
+	CBCP_Own_Command_Id *out_id);
+
+
+
+// Binds a procedure for CBCP to call when receiving a command request
+CBCP_Status
+cbcp_own_interface_bind_command(
+	CBCP_State *cbcp,
+	CBCP_Own_Interface_Id interface_id,
+	char *command_name,
+	unsigned int command_name_length,
+	CBCP_Command_Callback command_callback,
+	void *user_data);
+
+// Provides a handle used to send the specified command
+CBCP_Status
+cbcp_get_remote_command_handle(
+	CBCP_State *cbcp,
+	CBCP_Remote_Interface_Id remote_interface_id,
+	const char *command_name,
+	unsigned int command_name_length,
+	CBCP_Remote_Command_Handle *out_command);
+
+
+
+// Provides the license self has for the interface on the host
+// TODO(Patrick): Where is this used and why? Is it even an API thing?
+CBCP_License*
+cbcp_license_from_host_and_interface(
+	CBCP_Host *target_host,
+	CBCP_Remote_Interface_Id remote_interface);
+
+
+
+// Sends a command and receives the response
+CBCP_Status
+cbcp_execute_command(
+	CBCP_State *cbcp,
+	CBCP_Remote_Command_Handle command,
+	CBCP_Host_Id host_id,
+	char *packet_buffer,
+	unsigned int payload_length,
+	char *response_buffer,
+	unsigned int response_buffer_length,
+	unsigned int *out_response_length);
+
+
+
+// Waits for a command request and serves the first request it receives
+CBCP_Status
+cbcp_serve_next(
+	CBCP_State *cbcp);
+
+
+
+// 
+void
+cbcp_serialize_packet_header(
+	char **destination,
+	CBCP_Packet_Header *packet_header);
+ 
+// 
+void
+cbcp_deserialize_packet_header(
+	char **source,
+	CBCP_Packet_Header *packet_header);
+
+
+
+// 
+CBCP_Bool cbcp_length_strings_are_equal(
+	char *string1,
+	unsigned int string1_length,
+	char *string2,
+	unsigned int string2_length);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
